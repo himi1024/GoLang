@@ -3,50 +3,97 @@ package main
 // Package import
 import (
 	"fmt"
+	"golang/helper"
 )
 
-func printNum() {
-	fmt.Println("printNum: 19")
+// variables
+var remainingTickets uint = 20
+
+const confereneTickets int = 50
+
+var conferenceName = "Go Conference"
+
+// Arrays
+// Slices (Dynamic Arrays)
+var bookings = make([]UserData, 0)
+
+// Object
+type UserData struct {
+	firstName       string
+	lastName        string
+	email           string
+	numberOfTickets uint
 }
+
 func main() {
-	// variables
-	var number uint
-	var var1 string = "HelloWorld"
-	sugar := "Sugar"
+	greetUser()
 
-	// Arrays
-	// Slices (Dynamic Arrays)
-	// var anything [30]string
-	anything := []string{}
-	anything = append(anything, "Apple")
-	anything = append(anything, "Orange")
+	// for {
+	firstName, lastName, email, userTickets := getUserInput()
+	isValidName, isValidEmail, isValidTicketNumber := helper.ValidateUserInput(firstName, lastName, email, userTickets, remainingTickets)
 
-	fmt.Println(len(anything), " is length of the string")
-	// Get user input by reference
-	fmt.Println("Enter a positive number:")
-	fmt.Scan(&number)
+	if isValidName && isValidEmail && isValidTicketNumber {
+		bookTicket(userTickets, firstName, lastName, email)
 
-	// Validation
-	isValidNumber := number <= 100
+		firstNames := getFirstNames()
+		fmt.Printf("The first names %v\n", firstNames)
 
-	// formatted Output: %v => variables
-	if isValidNumber {
-		fmt.Printf(" %v and %v and %v\n", var1, number, sugar)
-		fmt.Printf("var1 is in %T type and number is in %T type\n", var1, number)
-		fmt.Printf("The whole array: %v\n", anything)
+		// Tickets sold
+		if remainingTickets == 0 {
+			fmt.Println("SOLD OFF")
+		}
 	} else {
-		fmt.Printf("Number is bigger than 100. Your input number is: %v", number)
+		if !isValidName {
+			fmt.Println("firstname or lastname you entered is too short")
+		}
+		if !isValidEmail {
+			fmt.Println("Email should contain a @ symbol")
+		}
+		if !isValidTicketNumber {
+			fmt.Println("number of tickets you entered is invalid")
+		}
+	}
+	// }
+
+}
+
+func getUserInput() (string, string, string, uint) {
+	var firstName string
+	var lastName string
+	var email string
+	var userTickets uint
+
+	fmt.Println("Enter your first name:")
+	fmt.Scan(&firstName)
+	fmt.Println("Enter your last name:")
+	fmt.Scan(&lastName)
+	fmt.Println("Enter your email address:")
+	fmt.Scan(&email)
+	fmt.Println("Enter number of tickets:")
+	fmt.Scan(&userTickets)
+
+	return firstName, lastName, email, userTickets
+}
+func bookTicket(userTickets uint, firstName string, lastName string, email string) {
+	remainingTickets = remainingTickets - userTickets
+	var userData = UserData{
+		firstName:       firstName,
+		lastName:        lastName,
+		email:           email,
+		numberOfTickets: userTickets,
 	}
 
-	// For-loop-1
-	for i := 1; i < 3; i++ {
-		fmt.Println("For-loop")
-	}
+	bookings = append(bookings, userData)
+}
+func greetUser() {
+	fmt.Printf("Welcome to %v", conferenceName)
+	fmt.Printf("There is %v tickets and %v are still available.\n", confereneTickets, remainingTickets)
+}
 
-	// For-loop-2
-	for i, s := range anything {
-		fmt.Println(i, s)
+func getFirstNames() []string {
+	firstNames := []string{}
+	for _, booking := range bookings {
+		firstNames = append(firstNames, booking.firstName)
 	}
-
-	printNum()
+	return firstNames
 }
