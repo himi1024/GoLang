@@ -1,8 +1,13 @@
 package main
 
 // Package import
-import "fmt"
+import (
+	"fmt"
+)
 
+func printNum() {
+	fmt.Println("printNum: 19")
+}
 func main() {
 	// variables
 	var number uint
@@ -42,4 +47,6 @@ func main() {
 	for i, s := range anything {
 		fmt.Println(i, s)
 	}
+
+	printNum()
 }
