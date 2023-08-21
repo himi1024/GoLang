@@ -13,10 +13,10 @@ func main() {
 	// Slices (Dynamic Arrays)
 	// var anything [30]string
 	anything := []string{}
-	anything = append(anything, "QQQ")
-	anything = append(anything, "TQQQ")
+	anything = append(anything, "Apple")
+	anything = append(anything, "Orange")
 
-	fmt.Println(len(anything), "abcd")
+	fmt.Println(len(anything), " is length of the string")
 	// Get user input by reference
 	fmt.Println("Enter a positive number:")
 	fmt.Scan(&number)
@@ -29,6 +29,8 @@ func main() {
 		fmt.Printf(" %v and %v and %v\n", var1, number, sugar)
 		fmt.Printf("var1 is in %T type and number is in %T type\n", var1, number)
 		fmt.Printf("The whole array: %v\n", anything)
+	} else {
+		fmt.Printf("Number is bigger than 100. Your input number is: %v", number)
 	}
 
 	// For-loop-1
